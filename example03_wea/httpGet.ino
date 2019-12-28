@@ -11,7 +11,7 @@ HTMLコンテンツ取得
     ・Yahoo!サービスの利用規約にしたがって利用ください。
             https://about.yahoo.co.jp/docs/info/terms/
 
-                                          Copyright (c) 2016-2019 Wataru KUNINO
+                                          Copyright (c) 2016-2020 Wataru KUNINO
 
 2019/12/27 雪（Snowy）を追加、戻り値を天気コードに変更
 *******************************************************************************/

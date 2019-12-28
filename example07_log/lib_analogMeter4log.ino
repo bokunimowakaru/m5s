@@ -9,7 +9,7 @@ https://github.com/m5stack/M5Stack/blob/master/examples/Advanced/Display/TFT_Met
 
 改変部の著作権は国野亘にあります。
 配布は自由ですが権利情報の変更は不可。補償や責任を負いません。
-Copyright (c) 2016-2019 Wataru KUNINO
+Copyright (c) 2016-2020 Wataru KUNINO
 
 元のライセンスについては下記を参照してください。
 https://github.com/m5stack/M5Stack/blob/master/LICENSE

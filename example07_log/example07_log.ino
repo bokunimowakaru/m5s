@@ -6,7 +6,7 @@ Example 07: ESP32 Wi-Fi LCD Logger for M5Stack
 ・TF Cardカードスロットへ装着した Micro SD カードへログを保存します。
 ・IoT温湿度センサのセンサ値を液晶ディスプレイにメーター＆グラフ表示します。
 
-                                          Copyright (c) 2016-2019 Wataru KUNINO
+                                          Copyright (c) 2016-2020 Wataru KUNINO
 *******************************************************************************/
 
 #include <M5Stack.h>                            // M5Stack用ライブラリの組み込み

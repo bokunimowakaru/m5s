@@ -5,7 +5,7 @@ Example 04: ESP32 (IoTセンサ) Wi-Fi 温度計 Temprature for M5Stack [Ambient
 ・ESP32マイコン内蔵の温度センサから取得した温度値を送信するIoTセンサです。
 ・センサ値は液晶ディスプレイにアナログメータで表示します。
 
-                                          Copyright (c) 2016-2019 Wataru KUNINO
+                                          Copyright (c) 2016-2020 Wataru KUNINO
 *******************************************************************************/
 
 #include <M5Stack.h>                            // M5Stack用ライブラリの組み込み

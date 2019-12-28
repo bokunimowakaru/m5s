@@ -5,7 +5,7 @@ Example 04: ESP32 (IoTセンサ) Wi-Fi 温度計 Temprature [LCDなし・低消�
 ・ESP32マイコン内蔵の温度センサから取得した温度値を送信するIoTセンサです。
 ・乾電池などで動作するIoTセンサ用の基本形です。
 
-                                          Copyright (c) 2016-2019 Wataru KUNINO
+                                          Copyright (c) 2016-2020 Wataru KUNINO
 *******************************************************************************/
 
 #include <WiFi.h>                               // ESP32用WiFiライブラリ

@@ -5,7 +5,7 @@ Example 03: ESP32 Wi-Fi LCD UDP版 for M5Stack 【APモード】
 ・各種IoTセンサが送信したデータを液晶ディスプレイ（LCD）へ表示します。
 ・センサ値は液晶ディスプレイにアナログメータで表示します。
 
-                                          Copyright (c) 2016-2019 Wataru KUNINO
+                                          Copyright (c) 2016-2020 Wataru KUNINO
 *******************************************************************************/
 
 #include <M5Stack.h>                            // M5Stack用ライブラリの組み込み

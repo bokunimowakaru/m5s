@@ -2,7 +2,7 @@
 Example 33: ESP32 Wi-Fi インジケータ for M5Stack
 LEDをWi-Fi経由で制御するワイヤレスLチカ実験を行います。
 
-                                          Copyright (c) 2016-2019 Wataru KUNINO
+                                          Copyright (c) 2016-2020 Wataru KUNINO
 
 【参考文献】
 Arduino IDE 開発環境イントール方法：
