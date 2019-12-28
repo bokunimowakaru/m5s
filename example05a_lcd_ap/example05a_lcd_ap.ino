@@ -15,7 +15,7 @@ Example 03: ESP32 Wi-Fi LCD UDP版 for M5Stack 【APモード】
 #define PASS "password"                         // パスワード
 #define PORT 1024                               // 受信ポート番号
 WiFiUDP udp;                                    // UDP通信用のインスタンスを定義
-char lcd[8][41];                                // 表示用変数を定義(8×40文字)
+char lcd[8][54];                                // 表示用変数を定義(8×40文字)
 int lcd_n=0;                                    // LCD格納済の行数の変数定義
 
 void setup(){                                   // 起動時に一度だけ実行する関数
@@ -42,8 +42,8 @@ void loop(){                                    // 繰り返し実行する関�
     int len,i;                                  // 文字列長を示す変数を定義
     len = udp.parsePacket();                    // 受信パケット長を変数lenに代入
     if(len==0)return;                           // 未受信のときはloop()の先頭へ
-    memset(lcd[lcd_n], 0, 41);                  // 文字列変数lcdの初期化
-    udp.read(lcd[lcd_n], 40);                   // 受信データを文字列変数lcdへ
+    memset(lcd[lcd_n], 0, 54);                  // 文字列変数lcdの初期化
+    udp.read(lcd[lcd_n], 53);                   // 受信データを文字列変数lcdへ
     for(i = 0; i <= lcd_n; i++){                // 受信履歴表示 8行分
         int y = (22 + i) * 8;                   // 表示位置Y座標の計算
         M5.Lcd.fillRect(0, y, 320, 8, BLACK);   // 表示部の背景を塗る
@@ -53,7 +53,7 @@ void loop(){                                    // 繰り返し実行する関�
     analogMeterNeedle(atof(lcd[lcd_n]+8),5);    // 受信値をアナログメータに表示
     lcd_n++;                                    // 次の行に更新
     if(lcd_n > 7){                              // 最終行を超えた時
-        for(i=1;i<8;i++) strncpy(lcd[i-1],lcd[i],40);   // 1行ずつ繰り上げ
+        for(i=1;i<8;i++) strncpy(lcd[i-1],lcd[i],53);   // 1行ずつ繰り上げ
         lcd_n = 7;                              // 最終行を設定
     }
 }

@@ -16,7 +16,7 @@ Example 06: ESP32 Wi-Fi LCD Graph表示版 for M5Stack
 #define PORT 1024                               // 受信ポート番号
 
 WiFiUDP udp;                                    // UDP通信用のインスタンスを定義
-char lcd[3][41];                                // 表示用変数を定義(3×40文字)
+char lcd[3][54];                                // 表示用変数を定義(3×40文字)
 int lcd_n=0;                                    // LCD格納済の行数の変数定義
 
 void setup(){                                   // 起動時に一度だけ実行する関数
@@ -30,7 +30,7 @@ void setup(){                                   // 起動時に一度だけ実�
         M5.Lcd.print('.');                      // 進捗表示
     }
     M5.Lcd.setCursor(160,216);                  // テキスト文字表示位置を設定
-    M5.Lcd.println(WiFi.softAPIP());            // 本機のIPアドレスを液晶に表示
+    M5.Lcd.println(WiFi.localIP());             // 本機のIPアドレスを液晶に表示
     udp.begin(PORT);                            // UDP通信御開始
 }
 
@@ -38,8 +38,8 @@ void loop(){                                    // 繰り返し実行する関�
     int len,i;                                  // 文字列長を示す変数を定義
     len = udp.parsePacket();                    // 受信パケット長を変数lenに代入
     if(len==0)return;                           // 未受信のときはloop()の先頭に戻る
-    memset(lcd[lcd_n], 0, 41);                  // 文字列変数lcdの初期化
-    udp.read(lcd[lcd_n], 40);                   // 受信データを文字列変数lcdへ代入
+    memset(lcd[lcd_n], 0, 54);                  // 文字列変数lcdの初期化
+    udp.read(lcd[lcd_n], 53);                   // 受信データを文字列変数lcdへ代入
     lineGraphPlot(atof(lcd[lcd_n]+8));          // 受信値をグラフ表示
     for(i = 0; i <= lcd_n; i++){                // 受信履歴表示 3行分
         int y = (27 + i) * 8;                   // 表示位置Y座標の計算
@@ -48,7 +48,7 @@ void loop(){                                    // 繰り返し実行する関�
     }
     lcd_n++;                                    // 次の行に更新
     if(lcd_n > 2){                              // 最終行を超えた時
-        for(i=1;i<3;i++) strncpy(lcd[i-1],lcd[i],40);   // 1行ずつ繰り上げ
-        lcd_n = 1;                              // 最終行を設定
+        for(i=1;i<3;i++) strncpy(lcd[i-1],lcd[i],53);   // 1行ずつ繰り上げ
+        lcd_n = 2;                              // 最終行を設定
     }
 }
