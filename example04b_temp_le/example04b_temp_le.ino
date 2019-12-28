@@ -11,11 +11,11 @@ Example 04: ESP32 (IoTセンサ) Wi-Fi 温度計 Temprature [LCDなし・低消�
 #include <WiFi.h>                               // ESP32用WiFiライブラリ
 #include <WiFiUdp.h>                            // UDP通信を行うライブラリ
 #include "esp_sleep.h"                          // ESP32用Deep Sleep ライブラリ
-#define SSID "1234ABCD"                         // 無線LANアクセスポイントのSSID
+#define SSID "iot-core-esp32"                   // 無線LANアクセスポイントのSSID
 #define PASS "password"                         // パスワード
 #define PORT 1024                               // 送信のポート番号
 #define SLEEP_P 55*1000000ul                    // スリープ時間 55秒(uint32_t)
-#define DEVICE "temp0_3,"                       // デバイス名(5文字+"_"+番号+",")
+#define DEVICE "temp0_3,"                       // デバイス名(5字+"_"+番号+",")
 #define TEMP_ADJ -25.0                          // 温度値の補正用
 IPAddress IP;                                   // ブロードキャストIP保存用
 

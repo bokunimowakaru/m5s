@@ -11,7 +11,7 @@ Example 05: ESP32 Wi-Fi LCD UDP版 for M5Stack
 #include <M5Stack.h>                            // M5Stack用ライブラリの組み込み
 #include <WiFi.h>                               // ESP32用WiFiライブラリ
 #include <WiFiUdp.h>                            // UDP通信を行うライブラリ
-#define SSID "1234ABCD"                         // 無線LANアクセスポイントのSSID
+#define SSID "iot-core-esp32"                   // 無線LANアクセスポイントのSSID
 #define PASS "password"                         // パスワード
 #define PORT 1024                               // 受信ポート番号
 WiFiUDP udp;                                    // UDP通信用のインスタンスを定義

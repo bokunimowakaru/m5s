@@ -1,14 +1,16 @@
 /*******************************************************************************
-Graph陦ｨ遉ｺ繝｢繧ｸ繝･繝ｼ繝ｫ for M5Stack
+Graph表示モジュール for M5Stack
 ********************************************************************************
 
-繝ｻ豸ｲ譎ｶ繝�繧｣繧ｹ繝励Ξ繧､縺ｫ繧ｰ繝ｩ繝輔ｒ陦ｨ遉ｺ縺励∪縺吶�
-
+・液晶ディスプレイにグラフを表示します。
+・320 x 216 -> 320 x 110 (実サイズは108)
                                           Copyright (c) 2019-2020 Wataru KUNINO
 *******************************************************************************/
 
 #include <M5Stack.h>
 #define TFT_GREY 0x5AEB
+#define LgaY 84	// Y軸、位置シフト加算用
+#define LggY 2	// Y軸、縮小率
 
 int lineGraphMinVal = 0;
 int lineGraphMaxVal = 100;
@@ -17,25 +19,26 @@ int lineGraphVal_n=0;
 
 void lineGraphCls(){
 	M5.Lcd.setTextColor(TFT_BLACK);
-	M5.Lcd.fillRect(5, 4, 310, 208, TFT_WHITE);
+	M5.Lcd.fillRect(2, 4/LggY + LgaY, 316, 208/LggY, TFT_WHITE);
 	for (int i = 0; i <= 14; i++) {
 		int x = 30 + i * 20;
-		M5.Lcd.drawLine(x, 8, x, 208, TFT_LIGHTGREY);
+		M5.Lcd.drawLine(x, 8/LggY + LgaY, x, 208/LggY + LgaY, TFT_LIGHTGREY);
 	}
 	for (int i = 0; i <= 10; i++) {
 		int y = 8 + i * 20;
-		M5.Lcd.drawLine(30, y, 310, y, TFT_LIGHTGREY);
+		M5.Lcd.drawLine(30, y/LggY + LgaY, 310, y/LggY + LgaY, TFT_LIGHTGREY);
 		y = 200 - i * 20 + 4;
+		if(i == 0) y-= 4;
 		if(i == 10) y++;
-		M5.Lcd.drawRightString(String(map(i,0,10,lineGraphMinVal,lineGraphMaxVal)), 28, y, 1);
+		M5.Lcd.drawRightString(String(map(i,0,10,lineGraphMinVal,lineGraphMaxVal)), 28, y/LggY + LgaY, 1);
 	}
 }
 
 void lineGraphInit(){
 	M5.Lcd.setTextSize(1);
-	M5.Lcd.fillRect(0, 0, 320, 216, TFT_GREY);
+	M5.Lcd.fillRect(0, LgaY, 320, 216/LggY, TFT_GREY);
 	lineGraphCls();
-	M5.Lcd.setCursor(0,216);
+	M5.Lcd.setCursor(0, 110 + 84);
 	M5.Lcd.setTextColor(TFT_WHITE);
 }
 
@@ -64,14 +67,14 @@ void lineGraphPlot(float value_f){
 			for(int i=1;i<259;i++){
 				int x = 30 + i;
 				int y = (int)lineGraphVal[i];
-				M5.Lcd.drawLine(x, y, x-1, (int)lineGraphVal[i-1], TFT_BLACK);
+				M5.Lcd.drawLine(x, y/LggY + LgaY, x-1, (int)lineGraphVal[i-1]/LggY + LgaY, TFT_BLACK);
 			}
 			lineGraphVal_n = 259;
 		}
 		int i = lineGraphVal_n;
 		int x = 30 + i;
 		int y = (int)lineGraphVal[i];
-		M5.Lcd.drawLine(x, y, x-1, (int)lineGraphVal[i-1], TFT_BLACK);
+		M5.Lcd.drawLine(x, y/LggY + LgaY, x-1, (int)lineGraphVal[i-1]/LggY + LgaY, TFT_BLACK);
 	}
 	lineGraphVal_n++;
 	M5.Lcd.setTextColor(TFT_WHITE);

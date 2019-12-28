@@ -15,7 +15,7 @@ Example 03: 天気予報を表示する IoT てるてる坊主 for M5Stack
 
 #include <M5Stack.h>                            // M5Stack用ライブラリの組み込み
 #include <WiFi.h>                               // ESP32用WiFiライブラリ
-#define SSID "1234ABCD"                         // 無線LANアクセスポイントのSSID
+#define SSID "iot-core-esp32"                   // 無線LANアクセスポイントのSSID
 #define PASS "password"                         // パスワード
 #define PREF 27                                 // 県番号:東京13,福島7,愛知23
                                                 // 大阪27,京都26,兵庫28,熊本43

@@ -1,3 +1,12 @@
+/*******************************************************************************
+Graph表示モジュール for M5Stack
+********************************************************************************
+
+・液晶ディスプレイにグラフを表示します。
+
+                                          Copyright (c) 2019-2020 Wataru KUNINO
+*******************************************************************************/
+
 #include <M5Stack.h>
 #define TFT_GREY 0x5AEB
 
@@ -24,7 +33,7 @@ void lineGraphCls(){
 
 void lineGraphInit(){
 	M5.Lcd.setTextSize(1);
-	M5.Lcd.fillRect(0, 0, 319, 215, TFT_GREY);
+	M5.Lcd.fillRect(0, 0, 320, 216, TFT_GREY);
 	lineGraphCls();
 	M5.Lcd.setCursor(0,216);
 	M5.Lcd.setTextColor(TFT_WHITE);

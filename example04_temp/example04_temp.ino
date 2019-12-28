@@ -11,10 +11,10 @@ Example 04: ESP32 (IoTセンサ) Wi-Fi 温度計 Temprature for M5Stack
 #include <M5Stack.h>                            // M5Stack用ライブラリの組み込み
 #include <WiFi.h>                               // ESP32用WiFiライブラリ
 #include <WiFiUdp.h>                            // UDP通信を行うライブラリ
-#define SSID "1234ABCD"                         // 無線LANアクセスポイントのSSID
+#define SSID "iot-core-esp32"                   // 無線LANアクセスポイントのSSID
 #define PASS "password"                         // パスワード
 #define PORT 1024                               // 送信のポート番号
-#define DEVICE "temp0_3,"                       // デバイス名(5文字+"_"+番号+",")
+#define DEVICE "temp0_3,"                       // デバイス名(5字+"_"+番号+",")
 #define TEMP_ADJ -25.0                          // 温度値の補正用
 IPAddress IP;                                   // ブロードキャストIP保存用
 

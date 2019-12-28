@@ -11,7 +11,7 @@ Example 03: ESP32 Wi-Fi LCD UDP版 for M5Stack 【APモード】
 #include <M5Stack.h>                            // M5Stack用ライブラリの組み込み
 #include <WiFi.h>                               // ESP32用WiFiライブラリ
 #include <WiFiUdp.h>                            // UDP通信を行うライブラリ
-#define SSID "1234ABCD"                         // 無線LANアクセスポイントのSSID
+#define SSID "iot-core-esp32"                   // 無線LANアクセスポイントのSSID
 #define PASS "password"                         // パスワード
 #define PORT 1024                               // 受信ポート番号
 WiFiUDP udp;                                    // UDP通信用のインスタンスを定義
@@ -29,8 +29,8 @@ void setup(){                                   // 起動時に一度だけ実�
         IPAddress(192,168,0,1),                 // 本機のゲートウェイアドレス
         IPAddress(255,255,255,0)                // ネットマスク
     );
-    if(strlen(PASS)>0) WiFi.softAP(SSID,PASS);  // ソフトウェアAPの起動(PASSあり)
-    else WiFi.softAP(SSID);                     // ソフトウェアAPの起動(PASSなし)
+    if(strlen(PASS)>0) WiFi.softAP(SSID,PASS);  // ソフトウェアAP起動(PASSあり)
+    else WiFi.softAP(SSID);                     // ソフトウェアAP起動(PASSなし)
     M5.Lcd.setCursor(160,168);                  // テキスト文字表示位置を設定
     M5.Lcd.println(WiFi.softAPIP());            // 本機のIPアドレスを液晶に表示
     M5.Lcd.println(SSID);                       // SSIDを表示

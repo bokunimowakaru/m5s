@@ -11,7 +11,7 @@ Example 06: ESP32 Wi-Fi LCD Graph表示版 for M5Stack 【APモード】
 #include <M5Stack.h>                            // M5Stack用ライブラリの組み込み
 #include <WiFi.h>                               // ESP32用WiFiライブラリ
 #include <WiFiUdp.h>                            // UDP通信を行うライブラリ
-#define SSID "1234ABCD"                         // 無線LANアクセスポイントのSSID
+#define SSID "iot-core-esp32"                   // 無線LANアクセスポイントのSSID
 #define PASS "password"                         // パスワード
 #define PORT 1024                               // 受信ポート番号
 
@@ -21,7 +21,7 @@ int lcd_n=0;                                    // LCD格納済の行数の変�
 
 void setup(){                                   // 起動時に一度だけ実行する関数
     M5.Lcd.begin();                             // M5Stack用Lcdライブラリの起動
-    lineGraphInit(0, 40);                       // グラフの初期化(縦軸の範囲指定)
+    lineGraphInit(0, 40);                       // グラフ初期化(縦軸の範囲指定)
     M5.Lcd.println("Example 06 M5Stack Graph"); // LCDにタイトルを表示
     WiFi.mode(WIFI_AP);                         // 無線LANを[AP]モードに設定
     delay(1000);                                // 切換え・設定待ち時間
@@ -30,8 +30,8 @@ void setup(){                                   // 起動時に一度だけ実�
         IPAddress(192,168,0,1),                 // 本機のゲートウェイアドレス
         IPAddress(255,255,255,0)                // ネットマスク
     );
-    if(strlen(PASS)>0) WiFi.softAP(SSID,PASS);  // ソフトウェアAPの起動(PASSあり)
-    else WiFi.softAP(SSID);                     // ソフトウェアAPの起動(PASSなし)
+    if(strlen(PASS)>0) WiFi.softAP(SSID,PASS);  // ソフトウェアAP起動(PASSあり)
+    else WiFi.softAP(SSID);                     // ソフトウェアAP起動(PASSなし)
     M5.Lcd.setCursor(160,216);                  // テキスト文字表示位置を設定
     M5.Lcd.println(WiFi.softAPIP());            // 本機のIPアドレスを液晶に表示
     M5.Lcd.println(SSID);                       // SSIDを表示
@@ -42,9 +42,9 @@ void setup(){                                   // 起動時に一度だけ実�
 void loop(){                                    // 繰り返し実行する関数
     int len,i;                                  // 文字列長を示す変数を定義
     len = udp.parsePacket();                    // 受信パケット長を変数lenに代入
-    if(len==0)return;                           // 未受信のときはloop()の先頭に戻る
+    if(len==0)return;                           // 未受信のときはloop()の先頭へ
     memset(lcd[lcd_n], 0, 54);                  // 文字列変数lcdの初期化
-    udp.read(lcd[lcd_n], 53);                   // 受信データを文字列変数lcdへ代入
+    udp.read(lcd[lcd_n], 53);                   // 受信データを文字列変数lcdへ
     lineGraphPlot(atof(lcd[lcd_n]+8));          // 受信値をグラフ表示
     for(i = 0; i <= lcd_n; i++){                // 受信履歴表示 8行分
         int y = (27 + i) * 8;                   // 表示位置Y座標の計算
