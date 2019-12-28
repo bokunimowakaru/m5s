@@ -32,7 +32,7 @@ void setup(){                                   // 起動時に一度だけ実�
     );
     if(strlen(PASS)>0) WiFi.softAP(SSID,PASS);  // ソフトウェアAPの起動(PASSあり)
     else WiFi.softAP(SSID);                     // ソフトウェアAPの起動(PASSなし)
-    M5.Lcd.setCursor(160,216);
+    M5.Lcd.setCursor(160,216);                  // テキスト文字表示位置を設定
     M5.Lcd.println(WiFi.softAPIP());            // 本機のIPアドレスを液晶に表示
     M5.Lcd.println(SSID);                       // SSIDを表示
     M5.Lcd.println(PASS);                       // PASSを表示

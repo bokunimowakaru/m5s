@@ -28,7 +28,7 @@ void setup(){                                   // 起動時に一度だけ実�
         delay(1000);                            // 待ち時間処理
         M5.Lcd.print('.');                      // 進捗表示
     }
-    M5.Lcd.setCursor(160,168);
+    M5.Lcd.setCursor(160,168);                  // テキスト文字表示位置を設定
     M5.Lcd.println(WiFi.localIP());             // 本機のIPアドレスを液晶に表示
     udp.begin(PORT);                            // UDP通信御開始
 }

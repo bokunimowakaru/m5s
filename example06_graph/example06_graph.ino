@@ -26,10 +26,10 @@ void setup(){                                   // 起動時に一度だけ実�
     WiFi.mode(WIFI_STA);                        // 無線LANをSTAモードに設定
     WiFi.begin(SSID,PASS);                      // 無線LANアクセスポイントへ接続
     while(WiFi.status() != WL_CONNECTED){       // 接続に成功するまで待つ
-        delay(1000);                            // 待ち時間処理
+        delay(500);                             // 待ち時間処理
         M5.Lcd.print('.');                      // 進捗表示
     }
-    M5.Lcd.setCursor(160,216);
+    M5.Lcd.setCursor(160,216);                  // テキスト文字表示位置を設定
     M5.Lcd.println(WiFi.softAPIP());            // 本機のIPアドレスを液晶に表示
     udp.begin(PORT);                            // UDP通信御開始
 }

@@ -16,7 +16,7 @@ Example 04: ESP32 (IoTセンサ) Wi-Fi 温度計 Temprature for M5Stack
 #define PORT 1024                               // 送信のポート番号
 #define DEVICE "temp0_3,"                       // デバイス名(5文字+"_"+番号+",")
 #define TEMP_ADJ -25.0                          // 温度値の補正用
-IPAddress IP;
+IPAddress IP;                                   // ブロードキャストIP保存用
 
 void setup(){                                   // 起動時に一度だけ実行する関数
     M5.Lcd.begin();                             // M5Stack用Lcdライブラリの起動
@@ -25,7 +25,7 @@ void setup(){                                   // 起動時に一度だけ実�
     WiFi.mode(WIFI_STA);                        // 無線LANをSTAモードに設定
     WiFi.begin(SSID,PASS);                      // 無線LANアクセスポイントへ接続
     while(WiFi.status() != WL_CONNECTED){       // 接続に成功するまで待つ
-        delay(1000);                            // 待ち時間処理
+        delay(500);                             // 待ち時間処理
         M5.Lcd.print('.');                      // 進捗表示
     }
     IP = WiFi.localIP();                        // IPアドレスを取得
