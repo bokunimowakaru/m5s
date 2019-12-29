@@ -51,4 +51,5 @@ void loop(){                                    // 繰り返し実行する関�
         for(i=1;i<3;i++) strncpy(lcd[i-1],lcd[i],53);   // 1行ずつ繰り上げ
         lcd_n = 2;                              // 最終行を設定
     }
+    udp.flush();                                // UDP受信バッファを破棄する
 }
