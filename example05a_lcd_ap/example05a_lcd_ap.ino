@@ -21,7 +21,7 @@ int lcd_n=0;                                    // LCD格納済の行数の変�
 void setup(){                                   // 起動時に一度だけ実行する関数
     M5.Lcd.begin();                             // M5Stack用Lcdライブラリの起動
     analogMeterInit("Value", 0, 40);            // アナログメータの初期化
-    M5.Lcd.println("Example 04 M5Stack LCD");   // LCDにタイトルを表示
+    M5.Lcd.println("Example 05 M5Stack LCD");   // LCDにタイトルを表示
     WiFi.mode(WIFI_AP);                         // 無線LANを[AP]モードに設定
     delay(1000);                                // 切換え・設定待ち時間
     WiFi.softAPConfig(
