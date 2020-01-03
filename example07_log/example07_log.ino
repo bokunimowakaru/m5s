@@ -57,7 +57,7 @@ void loop(){                                    // 繰り返し実行する関�
     memset(rx, 0, 65);                          // 受信データ用変数rxの初期化
     udp.read(rx, 64);                           // 受信データを変数rxへ
     udp.flush();                                // UDP受信バッファを破棄する
-    for(i=8;i<64;i++) if(rx[i]<32) rx[i]='\0';  // 特殊文字を削除
+    for(i=0;i<64;i++) if(rx[i]<32) rx[i]='\0';  // 特殊文字を削除
     if(strlen(rx) < 8) return;                  // 文字数不足でloopの先頭へ戻る
     if(rx[5] != '_' || rx[7] != ',') return;    // 規則不一致でloopの先頭へ戻る
 
