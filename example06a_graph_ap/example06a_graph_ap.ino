@@ -26,8 +26,8 @@ void setup(){                                   // 起動時に一度だけ実�
     WiFi.mode(WIFI_AP);                         // 無線LANを[AP]モードに設定
     delay(1000);                                // 切換え・設定待ち時間
     WiFi.softAPConfig(
-        IPAddress(192,168,0,1),                 // AP側の固定IPアドレス
-        IPAddress(192,168,0,1),                 // 本機のゲートウェイアドレス
+        IPAddress(192,168,254,1),               // AP側の固定IPアドレス
+        IPAddress(192,168,254,1),               // 本機のゲートウェイアドレス
         IPAddress(255,255,255,0)                // ネットマスク
     );
     if(strlen(PASS)>0) WiFi.softAP(SSID,PASS);  // ソフトウェアAP起動(PASSあり)
