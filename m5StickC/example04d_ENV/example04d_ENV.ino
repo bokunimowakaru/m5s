@@ -26,25 +26,39 @@ Example 04: ESP32 Wi-Fi 環境センサ for M5StickC + ENV
 
 IPAddress IP;                                   // ブロードキャストIP保存用
 DHT12 dht12;                                    // 温湿度センサDHT12用
-int disp = 0;
+RTC_DATA_ATTR int disp = 0;                     // メータ表示番号 0～
+
+void disp_init(){
+    if(disp == 0){
+        analogMeterInit("Celsius", "Temp.", 0, 40);
+    }else if(disp == 1){
+        analogMeterInit("RH%", "Humi.", 0, 100);
+    }else if(disp == 2){
+        analogMeterInit("hPa", "Pres.", 1013-26, 1013+26);
+    }else if(disp == 3){
+        analogMeterInit("mV", "Batt.", 3000, 5000);
+    }else if(disp == 4){
+        analogMeterInit("mA", "Batt.I", 0, 160);
+    }
+}
 
 void setup(){                                   // 起動時に一度だけ実行する関数
-    Serial.begin(115200);                       // 動作確認のためのシリアル出力開始
-    TimerWakeUp_init();
-    delay(100);
+    pinMode(M5_LED,OUTPUT);
+    digitalWrite(M5_LED,LOW);                   // LED ON
     M5.begin();                                 // M5StickC用Lcdライブラリの起動
-    Wire.begin(0,26);                           // I2C通信用ライブラリの起動
-    i2c_bme280_Setup(0,26);
+    TimerWakeUp_init();
+    i2c_bme280_Setup(0,26);                     // I2C通信用ライブラリの起動
     M5.Axp.ScreenBreath(7+2);
     M5.Lcd.setRotation(1);
     WiFi.mode(WIFI_STA);                        // 無線LANをSTAモードに設定
     WiFi.begin(SSID,PASS);                      // 無線LANアクセスポイントへ接続
-    analogMeterInit();                          // アナログメータの初期化
+    disp_init();                                // アナログメータ表示の初期化
+    digitalWrite(M5_LED,HIGH);                  // LED OFF
 }
 
 void loop(){                                    // 繰り返し実行する関数
     WiFiUDP udp;                                // UDP通信用のインスタンス定義
-    float temp,temp1,hum,temp2,press;           // 温度値、湿度値用の変数
+    float temp,temp1,hum,temp2,press,batt;      // 温度値、湿度値用の変数
     
     for(int i=0; i<6000; i++){                  // 6秒間の処理
         if( i % 500 == 0){
@@ -54,13 +68,18 @@ void loop(){                                    // 繰り返し実行する関�
             temp2 = i2c_bme280_getTemp();
             press = i2c_bme280_getPress();
             temp = (temp1 + temp2) / 2;
+            batt = (float)M5.Axp.GetVbatData() * 1.1;
             Serial.printf("(%.2f,%.2f)",temp1,temp2);   // 温度値をシリアル出力
             if(disp==0){
                 analogMeterNeedle(temp,5);
             }else if(disp==1){
                 analogMeterNeedle(hum,5);
-            }else if(disp==2){
+            }else if(disp == 2){
                 analogMeterNeedle(press,5);
+            }else if(disp == 3){
+                analogMeterNeedle(batt, 5);
+            }else if(disp == 4){
+                analogMeterNeedle((float)M5.Axp.GetIdischargeData(), 5);
             }
             M5.Lcd.setTextColor(BLACK,WHITE);
             M5.Lcd.setCursor(0,0);
@@ -72,27 +91,18 @@ void loop(){                                    // 繰り返し実行する関�
             Serial.print(", ");                 // カンマをシリアル出力
             Serial.print(hum,1);                // 湿度値をシリアル出力
             Serial.print(", ");                 // カンマをシリアル出力
-            Serial.println(press,1);            // 気圧値をシリアル出力
+            Serial.print(press,1);              // 気圧値をシリアル出力
+            Serial.print(", ");                 // カンマをシリアル出力
+            Serial.println(batt,0);             // 電圧値をシリアル出力
+            while(M5.BtnA.read()) delay(10);
         }
         M5.BtnA.read();
         if(M5.BtnA.wasPressed()){
             M5.Axp.ScreenBreath(7+2);
-            i = 0;
+            i = -1;
             disp++;
-            if(disp>3) disp=0;
-            if(disp == 0){
-                analogMeterInit("Celsius", "Temp.", 0, 40);
-                analogMeterNeedle(temp,5);
-            }else if(disp == 1){
-                analogMeterInit("RH%", "Humi.", 0, 100);
-                analogMeterNeedle(hum,5);
-            }else if(disp == 2){
-                analogMeterInit("hPa", "Pres.", 1013-26, 1013+26);
-                analogMeterNeedle(press,5);
-            }else if(disp == 3){
-                analogMeterInit("mV", "Batt.", 3000, 5000);
-                analogMeterNeedle((float)M5.Axp.GetVbatData() * 1.1, 5);
-            }
+            if(disp>4) disp=0;
+            disp_init();                        // アナログメータ表示の初期化
         }
         delay(1);
     }
@@ -105,16 +115,26 @@ void loop(){                                    // 繰り返し実行する関�
         udp.print(", ");                        // カンマを送信
         udp.print(hum,1);                       // 湿度値を送信
         udp.print(", ");                        // カンマを送信
-        udp.println(press,1);                   // 気圧値を送信
+        udp.print(press,1);                     // 気圧値を送信
+        udp.print(", ");                        // カンマを送信
+        udp.println(batt,0);                    // 電圧値を送信
         udp.endPacket();                        // UDP送信の終了(実際に送信する)
     }
     M5.Axp.ScreenBreath(0);
     M5.Lcd.fillScreen(BLACK);
+//  M5.Lcd.sleep();                             // 未実装
+//  M5.Axp.LightSleep(SLEEP_P);                 // HOMEキーで起動せず Ver.0.1.1
+//  M5.Axp.DeepSleep(SLEEP_P);                  // HOMEキーで起動せず Ver.0.1.1
+    bool swap = M5.Lcd.getSwapBytes();
+    M5.Lcd.setSwapBytes(true);
+    M5.Lcd.writecommand(ST7735_SLPIN);
+    M5.Lcd.setSwapBytes(swap);
     delay(200);                                 // 送信待ち時間
-//  M5.Axp.LightSleep(SLEEP_P);
+    M5.Axp.SetLDO2(false);                      // LCDバックライト用電源
+//  M5.Axp.SetLDO3(false);                      // LCDロジック電源 0.1.1未対応
     pinMode(BUTTON_A_PIN,INPUT_PULLUP);
+    while(digitalRead(BUTTON_A_PIN) == LOW);
     TimerWakeUp_setExternalInput((gpio_num_t)BUTTON_A_PIN, LOW);
     TimerWakeUp_setSleepTime((int)(SLEEP_P/1000000ul));
-    while(digitalRead(BUTTON_A_PIN) == LOW);
     TimerWakeUp_sleep();
 }
