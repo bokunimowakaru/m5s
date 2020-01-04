@@ -146,9 +146,9 @@ void analogMeterInit()
       y0 = sy * (M_SIZE*100 + tl + 10) + M_SIZE*140;
       switch (i / 25) {
         case -2: M5.Lcd.drawCentreString(String(analogMeterMinVal), x0, y0 - 12, 2); break;
-        case -1: M5.Lcd.drawCentreString(String((analogMeterMinVal+analogMeterMaxVal)/4), x0, y0 - 9, 2); break;
+        case -1: M5.Lcd.drawCentreString(String((analogMeterMinVal*3+analogMeterMaxVal)/4), x0, y0 - 9, 2); break;
         case 0: M5.Lcd.drawCentreString(String((analogMeterMinVal+analogMeterMaxVal)/2), x0, y0 - 7, 2); break;
-        case 1: M5.Lcd.drawCentreString(String((analogMeterMinVal+analogMeterMaxVal)*3/4), x0, y0 - 9, 2); break;
+        case 1: M5.Lcd.drawCentreString(String((analogMeterMinVal+analogMeterMaxVal*3)/4), x0, y0 - 9, 2); break;
         case 2: M5.Lcd.drawCentreString(String(analogMeterMaxVal), x0, y0 - 12, 2); break;
       }
     }

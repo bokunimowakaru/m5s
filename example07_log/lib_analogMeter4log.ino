@@ -168,16 +168,16 @@ void analogMeterInit()
         	M5.Lcd.drawCentreString(String(analogMeterMinVal2), x0+160, y0 - 4, 1);
         	break;
         case -1:
-        	M5.Lcd.drawCentreString(String((analogMeterMinVal1+analogMeterMaxVal1)/4), x0, y0 - 2, 1);
-        	M5.Lcd.drawCentreString(String((analogMeterMinVal2+analogMeterMaxVal2)/4), x0+160, y0 - 2, 1);
+        	M5.Lcd.drawCentreString(String((analogMeterMinVal1*3+analogMeterMaxVal1)/4), x0, y0 - 2, 1);
+        	M5.Lcd.drawCentreString(String((analogMeterMinVal2*3+analogMeterMaxVal2)/4), x0+160, y0 - 2, 1);
         	break;
         case 0:
         	M5.Lcd.drawCentreString(String((analogMeterMinVal1+analogMeterMaxVal1)/2), x0, y0 + 2, 1);
         	M5.Lcd.drawCentreString(String((analogMeterMinVal2+analogMeterMaxVal2)/2), x0+160, y0 + 2, 1);
         	break;
         case 1:
-        	M5.Lcd.drawCentreString(String((analogMeterMinVal1+analogMeterMaxVal1)*3/4), x0, y0 - 2, 1);
-        	M5.Lcd.drawCentreString(String((analogMeterMinVal2+analogMeterMaxVal2)*3/4), x0+160, y0 - 2, 1);
+        	M5.Lcd.drawCentreString(String((analogMeterMinVal1+analogMeterMaxVal1*3)/4), x0, y0 - 2, 1);
+        	M5.Lcd.drawCentreString(String((analogMeterMinVal2+analogMeterMaxVal2*3)/4), x0+160, y0 - 2, 1);
         	break;
         case 2:
         	M5.Lcd.drawCentreString(String(analogMeterMaxVal1), x0, y0 - 4, 1);
