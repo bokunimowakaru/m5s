@@ -1,7 +1,7 @@
 /*******************************************************************************
 Example 36(=32+4): ESP32 ケチケチ運転術 for M5StickC
 内蔵電池で動作するIoTセンサ用の基本形です。
-※現時点では待機電流が多い(20mA)、M5StickCライブラリ未実装なので使えない
+※現時点では待機電流が多い(20mA)、M5StickCライブラリの一部が未実装
 
                                           Copyright (c) 2016-2020 Wataru KUNINO
 *******************************************************************************/
@@ -12,7 +12,7 @@ Example 36(=32+4): ESP32 ケチケチ運転術 for M5StickC
 #define SSID "iot-core-esp32"                   // 無線LANアクセスポイントのSSID
 #define PASS "password"                         // パスワード
 #define PORT 1024                               // 送信のポート番号
-#define SLEEP_P 30*1000000ul                    // スリープ時間 50秒(uint32_t)
+#define SLEEP_P 30*1000000ul                    // スリープ時間 30秒(uint32_t)
 #define DEVICE "adcnv_1,"                       // デバイス名(5字+"_"+番号+",")
 
 void setup(){                                   // 起動時に一度だけ実行する関数
@@ -45,7 +45,6 @@ void loop() {
         if(!M5.BtnA.read()) sleep();            // Sleepへ
     }else{
         digitalWrite(M5_LED,!digitalRead(M5_LED));      // LEDの点滅
-        M5.Lcd.print(".");
     }
     delay(500);                                 // 表示の更新間隔 0.5秒
 }
