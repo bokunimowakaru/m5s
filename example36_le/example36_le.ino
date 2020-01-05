@@ -3,7 +3,7 @@ Example 36(=32+4): ESP32 ケチケチ運転術 for M5Stack
 内蔵電池で動作するIoTセンサ用の基本形です。
 
 ※現時点では待機電流が多い
-※保有するM5StackがI2C通信に対応していなかった：
+※保有するM5Stackの電源ICがI2C通信に対応していなかった：
 　http://community.m5stack.com/topic/878/solved-can-t-find-ip5306-i2c-address/14
 
                                           Copyright (c) 2016-2020 Wataru KUNINO
