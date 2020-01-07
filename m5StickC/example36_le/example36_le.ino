@@ -40,13 +40,15 @@ void loop() {
         udp.print(DEVICE);                      // デバイス名を送信
         udp.print(batt);                        // 湿度値を送信
         udp.print(", ");                        // カンマを送信
-        udp.println(battI);                     // 変数battの値を送信
+        udp.print(battI);                       // 変数battの値を送信
+        udp.print(", ");                        // カンマを送信
+        udp.println(millis()/1000 + 0.2,1);     // 起動後の秒数を送信
         udp.endPacket();                        // UDP送信の終了(実際に送信する)
         if(!M5.BtnA.read()) sleep();            // Sleepへ
     }else{
         digitalWrite(M5_LED,!digitalRead(M5_LED));      // LEDの点滅
     }
-    delay(500);                                 // 表示の更新間隔 0.5秒
+    delay(100);                                 // 表示の更新間隔 0.1秒
 }
 
 void sleep(){
