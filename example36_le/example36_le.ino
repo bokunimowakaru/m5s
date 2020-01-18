@@ -38,6 +38,7 @@ void loop() {
     batt = M5.Power.getBatteryLevel();          // 電池電圧を取得
     if(batt < 0){                               // I2C非対応の電源ICだったとき
         batt = (int)mvAnalogIn(PIN_AIN, 0.05);  // AINの電圧を取得
+        batt *= 2;
     }
     M5.Lcd.printf("%d ",batt);                  // 変数battの値を表示
     if(WiFi.status() == WL_CONNECTED){          // 接続に成功
@@ -57,7 +58,7 @@ void sleep(){
     M5.Lcd.sleep();
     delay(200);                                 // 送信待ち時間
     
-    M5.Power.setWakeupButton(BUTTON_A_PIN);
+//  M5.Power.setWakeupButton(BUTTON_A_PIN);     // 左ボタンで起動
     M5.Power.deepSleep(SLEEP_P);
 }
 
