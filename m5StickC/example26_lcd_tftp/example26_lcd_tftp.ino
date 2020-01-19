@@ -121,7 +121,7 @@ void loop() {
         if(file.available()) M5.Lcd.write(file.read());
         else file.close();
     }
-    M5.Lcd.printf("WiFi %d  \n",stat);
+    M5.Lcd.printf("WiFi %d  \n",(int8_t)((byte)stat));
     M5.Lcd.printf("UsbV %1.3f  \n",bvus_mV/1000.);
     M5.Lcd.printf("BatV %1.3f  \n",batt_mV/1000.);
     M5.Lcd.printf("BatA %1.3f  \n",batt_mA/1000.);
