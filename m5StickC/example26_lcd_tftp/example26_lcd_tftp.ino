@@ -48,7 +48,7 @@ TFTPサーバの停止
     $ sudo /etc/init.d/tftpd-hpa stop
 
 転送用のファイルを保存
-    $ echo "Hello! This is from RasPi" > /srv/tftp/tftpc_1.txt
+    $ echo -e 'Hello!\nThis is from Rasberry Pi' > /srv/tftp/tftpc_1.txt
 
 【注意事項】
 ・TFTPクライアント(ESP側)やTFTPサーバ(PCやRaspberry Pi側)起動すると、各機器が
@@ -107,13 +107,12 @@ void loop() {
         }else{
             BTN_LONG = 0;
         }
-    }
-    M5.update();                                // ボタン状態を確認
-    if(BTN_LONG == 0 && M5.BtnA.wasPressed() ) BTN_LONG = -1;
+    }else if(BTN_LONG == 0 && M5.BtnA.read() ) BTN_LONG = -1;
 
     int bvus_mV = M5.Axp.GetVusbinData()* 1.7f; // USB電圧を取得
     int batt_mV = M5.Axp.GetVbatData() * 1.1f;  // 電池電圧を取得
-    int batt_mA = M5.Axp.GetIdischargeData()/2; // 放電電流を取得
+    int batt_mA = M5.Axp.GetIchargeData()/2
+                - M5.Axp.GetIdischargeData()/2; // 充電放電電流を取得
     int stat = WiFi.status();
     M5.Lcd.setCursor(0,0);
     M5.Lcd.print("Ex26 TFTP LCD");              // タイトルを表示
@@ -123,9 +122,9 @@ void loop() {
         else file.close();
     }
     M5.Lcd.printf("WiFi %d  \n",stat);
-    M5.Lcd.printf("VBus %d  \n",bvus_mV);
-    M5.Lcd.printf("BatV %d  \n",batt_mV);
-    M5.Lcd.printf("BatA %d  \n",batt_mA);
+    M5.Lcd.printf("UsbV %1.3f  \n",bvus_mV/1000.);
+    M5.Lcd.printf("BatV %1.3f  \n",batt_mV/1000.);
+    M5.Lcd.printf("BatA %1.3f  \n",batt_mA/1000.);
     M5.Lcd.printf("Time %d/%d \n",count,TIMEOUT);
     
     if(stat == WL_CONNECTED){                   // 接続に成功したとき
