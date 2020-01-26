@@ -32,13 +32,16 @@ USB給電を止めたときもWi-Fi送信します。
 #define SLEEP_P 10*1000000ul                    // スリープ時間 10秒(uint32_t)
 #define DEVICE "count_1,"                       // デバイス名(5字+"_"+番号+",")
 
-RTC_DATA_ATTR int WAKETIME = 0;                 // 前回、起動していた合計時間
-int wake;
+RTC_DATA_ATTR int WAKE_DUR = 0;                 // 前回、起動していた合計時間
+RTC_DATA_ATTR uint32_t SLEEP_DUR = 0;           // スリープしていた合計時間
+int wake;                                       // 起動理由
 
 void setup(){                                   // 起動時に一度だけ実行する関数
     wake = TimerWakeUp_init();
+    int mv = M5.Axp.GetVusbinData()* 1.7f;
     M5.Axp.begin();
-    if((wake == 3 || wake == 4) && M5.Axp.GetVusbinData()* 1.7f < 4500) sleep();
+    if( wake != 0 ) SLEEP_DUR += SLEEP_P + millis();
+    if((wake == 3 || wake == 4) && mv < 3300) sleep();
     pinMode(M5_LED,OUTPUT);                     // LEDのIOを出力に設定
     M5.begin();                                 // M5StickC用Lcdライブラリの起動
     M5.Axp.ScreenBreath(7+1);                   // LCDの輝度を1に設定
@@ -58,19 +61,20 @@ void loop() {
     int batt_mA = M5.Axp.GetIchargeData()/2
                 - M5.Axp.GetIdischargeData()/2; // 充電放電電流を取得
     int time = (int)(millis() / 1000ul);
-    int time2 = TimerWakeUp_bootCount() * (int)(SLEEP_P / 1000000ul);
-    int usb = (bvus_mV > 4500);                 // USB接続状態フラグ
+    int time2 = (int)(SLEEP_DUR / 1000ul);
+    int usb = (bvus_mV > 3300);                 // USB接続状態フラグ
     
     M5.Lcd.setTextSize(1);                      // 文字表示サイズを1倍に設定
     M5.Lcd.setCursor(0,0);                      // 文字描画位置を画面左上へ
     M5.Lcd.printf("WiFi=%d ",stat);
     M5.Lcd.printf("Usb=%1.2f \n",bvus_mV/1000.);
+//  Serial.printf("USB %1.2fV\n",bvus_mV/1000.);
     M5.Lcd.printf("Batt %1.2fV ",batt_mV/1000.);
     M5.Lcd.printf("%dmA  \n\n",batt_mA);
     M5.Lcd.setTextSize(3);                      // 文字表示サイズを3倍に設定
     M5.Lcd.setCursor(9,24);
     if(usb) M5.Lcd.printf("%02d:%02d:%02d\n",time/3600,(time/60)%60,time%60);
-    else M5.Lcd.printf("%02d:%02d:%02d\n",WAKETIME/3600,(WAKETIME/60)%60,WAKETIME%60);
+    else M5.Lcd.printf("%02d:%02d:%02d\n",WAKE_DUR/3600,(WAKE_DUR/60)%60,WAKE_DUR%60);
     M5.Lcd.setCursor(9,48);
     M5.Lcd.printf("%02d:%02d:%02d\n",time2/3600,(time2/60)%60,time2%60);
     
@@ -91,7 +95,7 @@ void loop() {
         if(wake == 1 || wake == 2){
             delay(3000);
         }else{
-            WAKETIME = time;
+            WAKE_DUR = time;
             TimerWakeUp_setBootCount(0);
         }
         sleep();                                // USB電源供給無し時にsleep
