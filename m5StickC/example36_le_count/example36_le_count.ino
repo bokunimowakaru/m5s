@@ -37,11 +37,11 @@ RTC_DATA_ATTR uint32_t SLEEP_DUR = 0;           // スリープしていた合�
 int wake;                                       // 起動理由
 
 void setup(){                                   // 起動時に一度だけ実行する関数
-    wake = TimerWakeUp_init();
-    int mv = M5.Axp.GetVusbinData()* 1.7f;
     M5.Axp.begin();
-    if( wake != 0 ) SLEEP_DUR += SLEEP_P + millis();
-    if((wake == 3 || wake == 4) && mv < 3300) sleep();
+    wake = TimerWakeUp_init();
+    int mv = M5.Axp.GetVusbinData() * 1.7f;
+    if( wake != 0 ) SLEEP_DUR += SLEEP_P / 1000ul + millis();
+    if((wake == 3 || wake == 4) && mv < 3000) sleep();
     pinMode(M5_LED,OUTPUT);                     // LEDのIOを出力に設定
     M5.begin();                                 // M5StickC用Lcdライブラリの起動
     M5.Axp.ScreenBreath(7+1);                   // LCDの輝度を1に設定
@@ -62,12 +62,12 @@ void loop() {
                 - M5.Axp.GetIdischargeData()/2; // 充電放電電流を取得
     int time = (int)(millis() / 1000ul);
     int time2 = (int)(SLEEP_DUR / 1000ul);
-    int usb = (bvus_mV > 3300);                 // USB接続状態フラグ
+    int usb = (bvus_mV > 3000);                 // USB接続状態フラグ
     
     M5.Lcd.setTextSize(1);                      // 文字表示サイズを1倍に設定
     M5.Lcd.setCursor(0,0);                      // 文字描画位置を画面左上へ
-    M5.Lcd.printf("WiFi=%d ",stat);
-    M5.Lcd.printf("Usb=%1.2f \n",bvus_mV/1000.);
+    M5.Lcd.printf("Wake=%d, WiFi=%d, ",wake,stat);
+    M5.Lcd.printf("Usb=%1.2fV \n",bvus_mV/1000.);
 //  Serial.printf("USB %1.2fV\n",bvus_mV/1000.);
     M5.Lcd.printf("Batt %1.2fV ",batt_mV/1000.);
     M5.Lcd.printf("%dmA  \n\n",batt_mA);
