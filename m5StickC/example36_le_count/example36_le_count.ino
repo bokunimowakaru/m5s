@@ -41,7 +41,7 @@ void setup(){                                   // 起動時に一度だけ実�
     wake = TimerWakeUp_init();
     int mv = M5.Axp.GetVusbinData() * 1.7f;
     if( wake != 0 ) SLEEP_DUR += SLEEP_P / 1000ul + millis();
-    if((wake == 3 || wake == 4) && mv < 3000) sleep();
+    if((wake == 3 || wake == 4) && mv < 4000) sleep();
     pinMode(M5_LED,OUTPUT);                     // LEDのIOを出力に設定
     M5.begin();                                 // M5StickC用Lcdライブラリの起動
     M5.Axp.ScreenBreath(7+1);                   // LCDの輝度を1に設定
@@ -62,7 +62,7 @@ void loop() {
                 - M5.Axp.GetIdischargeData()/2; // 充電放電電流を取得
     int time = (int)(millis() / 1000ul);
     int time2 = (int)(SLEEP_DUR / 1000ul);
-    int usb = (bvus_mV > 3000);                 // USB接続状態フラグ
+    int usb = (bvus_mV > 4000);                 // USB接続状態フラグ
     
     M5.Lcd.setTextSize(1);                      // 文字表示サイズを1倍に設定
     M5.Lcd.setCursor(0,0);                      // 文字描画位置を画面左上へ
@@ -93,11 +93,12 @@ void loop() {
     }
     if(!usb){
         if(wake == 1 || wake == 2){
-            delay(3000);
+            delay(2000);
         }else{
             WAKE_DUR = time;
             TimerWakeUp_setBootCount(0);
         }
+        delay(3000);
         sleep();                                // USB電源供給無し時にsleep
     }
     while (millis()%1000 != 0) delayMicroseconds(900);
