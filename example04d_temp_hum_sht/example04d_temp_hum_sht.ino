@@ -23,9 +23,10 @@ IPAddress IP;                                   // ブロードキャストIP保
 
 void setup(){                                   // 起動時に一度だけ実行する関数
     M5.Lcd.begin();                             // M5Stack用Lcdライブラリの起動
+    M5.Lcd.setBrightness(31);                   // 輝度を下げる（省エネ化）
     Wire.begin();                               // I2C通信用ライブラリの起動
     analogMeterInit();                          // アナログメータの初期化
-    lineGraphInit(13, 33);                       // グラフ初期化(縦軸の範囲指定)
+    lineGraphInit(13, 33);                      // グラフ初期化(縦軸の範囲指定)
           // (18℃-5℃)～(28℃+5℃)
     M5.Lcd.println("Example 04 M5Stack Temp & Hum (SHT30)"); // タイトル表示
     WiFi.mode(WIFI_STA);                        // 無線LANをSTAモードに設定
@@ -37,7 +38,6 @@ void setup(){                                   // 起動時に一度だけ実�
     IP = WiFi.localIP();                        // IPアドレスを取得
     IP[3] = 255;                                // ブロードキャストアドレスに
     M5.Lcd.println(IP);                         // UDP送信先IPアドレスを表示
-    i2c_sht30_getStat();
 }
 
 void loop(){                                    // 繰り返し実行する関数
@@ -60,6 +60,9 @@ void loop(){                                    // 繰り返し実行する関�
         M5.Lcd.fillRect(0, 202, 320, 38, BLACK);    // 表示部の背景を塗る
     }else{
         M5.Lcd.fillRect(0, 202, 320, 38, TFT_RED);  // 表示部の背景を塗る
+        M5.Speaker.tone(440);                       // スピーカ出力 440Hzを出力
+        delay(100);                                 // 100msの待ち時間処理
+        M5.Speaker.end();                           // スピーカ出力を停止する
     }
     String S="WGBT= "+String(wgbt,1)+"C ("+String(temp,1)+"C, "+String(hum,0)+"%)";
     M5.Lcd.drawCentreString(S, 160, 210, 4);    // 受信文字列を表示
