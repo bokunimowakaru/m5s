@@ -24,7 +24,6 @@ float temp, hum, wgbt;                          // 温度値、湿度値、WGBT�
 
 void wifistart(){
     IP = (0,0,0,0);                             // 非接続状態
-    WiFi.mode(WIFI_STA);                        // 無線LANをSTAモードに設定
     WiFi.begin(SSID,PASS);                      // 無線LANアクセスポイントへ接続
     for(int i = 0; i < 20; i++){
         if(WiFi.status() == WL_CONNECTED){      // 接続に成功
@@ -65,6 +64,7 @@ void setup(){                                   // 起動時に一度だけ実�
     analogMeterInit();                          // アナログメータの初期化
     lineGraphInit(14, 34);                      // グラフ初期化(縦軸の範囲指定)
     M5.Lcd.println("Example 04 M5Stack Temp & Hum (SHT30)"); // タイトル表示
+    WiFi.mode(WIFI_STA);                        // 無線LANをSTAモードに設定
 }
 
 void loop(){                                    // 繰り返し実行する関数
@@ -83,7 +83,8 @@ void loop(){                                    // 繰り返し実行する関�
     }
     
     // 待機処理 //
-    WiFi.mode(WIFI_OFF);                        // 無線LANをOFFモードに設定
+    WiFi.disconnect();                          // 無線LANをOFFモードに設定
+    // WiFi.mode(WIFI_OFF);
     for(int i = 0; i < 55; i++){                // 55秒間の待機時間
         delay(1000);                            // 1秒間の待ち時間処理
         get_wgbt();                             // 温度、湿度、WGBTの取得
